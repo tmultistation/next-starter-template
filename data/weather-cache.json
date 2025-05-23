@@ -7,21 +7,21 @@
         "name": "Warwick, Kent County, Rhode Island, 02889, United States"
       },
       "current": {
-        "time": "2025-05-23T04:34:00Z",
+        "time": "2025-05-23T04:47:00Z",
         "temperature": 7,
         "temperatureApparent": 7,
-        "humidity": 97,
-        "windSpeed": 9.4,
-        "windDirection": 338,
+        "humidity": 92,
+        "windSpeed": 8.7,
+        "windDirection": 342,
         "weatherCode": 4200,
         "weatherDescription": "Light Rain",
-        "visibility": 6.36,
+        "visibility": 7,
         "uvIndex": 0,
         "precipitationProbability": 100,
-        "cloudCover": 96
+        "cloudCover": 100
       }
     },
-    "timestamp": 1747974885671,
+    "timestamp": 1747975642747,
     "location": "Warwick, RI"
   }
 }

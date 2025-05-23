@@ -1,5 +1,230 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
+# Personal Hub Dashboard System
+
+## Overview
+The Personal Hub now uses a comprehensive dashboard widget system that replaces the static categories grid. Users can create custom layouts with easy-to-use widget editing, providing maximum flexibility and personalization.
+
+## System Architecture
+
+### Homepage (`src/app/page.tsx`)
+- **Primary View**: Dashboard with customizable widgets
+- **Fallback**: Creates default category widgets if no dashboard exists
+- **Navigation**: Direct link to admin for customization
+
+### Admin Panel (`src/app/admin/`)
+- **Dashboard Tab**: Main editing interface with widget management
+- **Profile Tab**: User profile settings
+- **Integrated Category Management**: Built into dashboard editor
+
+### Widget System (`src/components/widgets/`)
+- **CategoryLinksWidget**: Displays links from a specific category
+- **QuickLinksWidget**: Custom collection of links
+- **TextBlockWidget**: Custom text content
+- **ClockWidget**: Live time and date display
+- **WidgetRenderer**: Dynamic widget type resolver
+
+### Dashboard Components (`src/components/dashboard/`)
+- **DashboardGrid**: Main layout manager
+- **DashboardRow**: Row-based layout system (12-column grid)
+
+## Key Features
+
+### 🎯 Simple Widget Management
+- **Clear Edit/Delete Buttons**: Prominent, easy-to-click controls
+- **Visual Feedback**: Clear editing mode indicators
+- **No Drag Interference**: Clean interface focused on content
+
+### 📊 Widget Types
+1. **Category Links** - Display links from existing categories
+2. **Quick Links** - Custom link collections
+3. **Text Block** - Rich text content
+4. **Clock** - Live time display
+5. **Placeholder Widgets** - Weather, Stats, Calendar, Notes, Bookmarks, RSS (coming soon)
+
+### 🏗️ Layout System
+- **12-Column Grid**: Bootstrap-style responsive layout
+- **Flexible Rows**: Multiple columns per row
+- **Widget Positioning**: Row and column-based placement
+- **Responsive Design**: Adapts to different screen sizes
+
+### ⚙️ Administration
+- **Unified Interface**: Dashboard and category management in one place
+- **Real-time Editing**: Live preview while configuring
+- **Widget Configuration**: Type-specific settings and appearance
+- **Category Management**: Integrated CRUD operations
+
+## Data Structure
+
+### Dashboard Layout
+```typescript
+interface DashboardLayout {
+  id: string;
+  name: string;
+  widgets: Widget[];
+  rows: LayoutRow[];
+}
+```
+
+### Widget Configuration
+```typescript
+interface Widget {
+  id: string;
+  type: WidgetType;
+  title: string;
+  config: WidgetConfig;
+  position: { row: number; column: number };
+}
+```
+
+### Extended Hub Content
+```typescript
+interface ExtendedHubContent {
+  profile: ProfileData;
+  categories: Category[];
+  dashboards: DashboardLayout[];
+  currentDashboard?: string;
+}
+```
+
+## Usage Flow
+
+### 1. First-Time Setup
+- System creates fallback dashboard from existing categories
+- Users can immediately see their content in widget form
+- Admin panel guides through customization
+
+### 2. Dashboard Editing
+1. Click "Customize Dashboard" or access admin
+2. Enable "Edit Layout" mode
+3. Click "Edit" or "Delete" buttons on widgets
+4. Add new widgets from palette
+5. Configure widget settings
+6. Save changes
+
+### 3. Category Management
+- Integrated into dashboard editor
+- Toggle "Manage Categories" section
+- Add/edit/delete categories and links
+- Changes immediately reflect in category widgets
+
+### 4. Widget Placement
+- Select widget type from palette
+- Visual grid shows available positions
+- Click column to place widget
+- Automatic positioning system
+
+## Technical Implementation
+
+### Dependencies
+- **No Drag Libraries**: Simplified for better UX
+- **React Standard**: useState, useEffect for state management
+- **Tailwind CSS**: Responsive grid and styling
+
+### File Structure
+```
+src/
+├── app/
+│   ├── page.tsx (Dashboard homepage)
+│   └── admin/
+│       └── components/
+│           ├── AdminDashboard.tsx (Main admin interface)
+│           ├── DashboardEditor.tsx (Dashboard + category management)
+│           ├── WidgetPalette.tsx (Widget selection)
+│           └── WidgetEditor.tsx (Widget configuration)
+├── components/
+│   ├── dashboard/
+│   │   ├── DashboardGrid.tsx (Layout manager)
+│   │   └── DashboardRow.tsx (Row component)
+│   └── widgets/
+│       ├── CategoryLinksWidget.tsx
+│       ├── QuickLinksWidget.tsx
+│       ├── TextBlockWidget.tsx
+│       ├── ClockWidget.tsx
+│       └── WidgetRenderer.tsx
+└── types/
+    └── dashboard.ts (TypeScript interfaces)
+```
+
+### State Management
+- React useState for component state
+- Session storage for temporary edits
+- API persistence for saved changes
+- Real-time updates across components
+
+## Customization Guidelines
+
+### Adding New Widget Types
+1. Create widget component in `src/components/widgets/`
+2. Add type to `WidgetType` union in `types/dashboard.ts`
+3. Add configuration interface to `WidgetConfig`
+4. Update `WidgetRenderer` to handle new type
+5. Add to `WidgetPalette` selection
+
+### Layout Modifications
+- Modify row structure in `createDefaultLayout()`
+- Adjust column widths (1-12 scale)
+- Add new row configurations
+- Update responsive breakpoints
+
+### Styling Customization
+- Consistent design system with existing hub
+- Glassmorphism effects and purple theme
+- Dark mode optimized
+- Responsive grid system
+
+## Migration Notes
+
+### From Categories to Dashboard
+- Existing categories automatically become widgets
+- No data loss during transition
+- Fallback system ensures continuity
+- Admin panel simplified and streamlined
+
+### Backward Compatibility
+- API maintains category structure
+- Widget system reads from existing data
+- Gradual migration approach
+- No breaking changes to data format
+
+## Best Practices
+
+### Widget Development
+- Always handle loading states
+- Implement `isEditing` mode
+- Use consistent styling
+- Handle empty/error states
+- Include accessibility features
+
+### Layout Design
+- Plan for mobile responsiveness
+- Consider widget content size
+- Use semantic grid positioning
+- Optimize for performance
+
+### User Experience
+- Clear visual feedback during editing
+- Large, accessible edit/delete buttons
+- Consistent interaction patterns
+- Save state indicators
+- Error handling and recovery
+
+## Interface Design
+
+### Edit Mode Controls
+- **Enhanced Buttons**: Larger, more prominent edit/delete controls
+- **Clear Background**: Dark overlay for better visibility
+- **Text Labels**: "Edit" and "Delete" text for clarity
+- **Color Coding**: Blue for edit, red for delete
+
+### Widget Management
+- **No Drag Conflicts**: Edit/delete buttons always accessible
+- **Simple Interactions**: Click-based operations only
+- **Visual Feedback**: Clear state indicators
+- **Mobile Friendly**: Touch-optimized controls
+
+This dashboard system provides a powerful, flexible foundation for the Personal Hub while maintaining simplicity and ease of use without drag-and-drop complexity.
+

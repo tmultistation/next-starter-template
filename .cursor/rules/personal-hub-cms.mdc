@@ -1,5 +1,177 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
+# Personal Hub CMS System Guide
+
+## Overview
+This project is a Next.js-based Personal Hub with an integrated Content Management System (CMS). It serves as a centralized dashboard for commonly used websites, apps, and tools, with a powerful admin interface for content management.
+
+## Architecture & Key Components
+
+### Core Files Structure
+- **Main Hub**: [src/app/page.tsx](mdc:src/app/page.tsx) - Dynamic frontend that loads content from JSON
+- **Data Storage**: [src/data/hub-content.json](mdc:src/data/hub-content.json) - Central content database
+- **Admin Interface**: [src/app/admin/page.tsx](mdc:src/app/admin/page.tsx) - Protected CMS dashboard
+- **API Routes**: 
+  - [src/app/api/hub-content/route.ts](mdc:src/app/api/hub-content/route.ts) - Content CRUD operations
+  - [src/app/api/auth/route.ts](mdc:src/app/api/auth/route.ts) - PIN authentication
+
+### Admin Components
+- **PIN Authentication**: [src/app/admin/components/PinAuth.tsx](mdc:src/app/admin/components/PinAuth.tsx)
+- **Main Dashboard**: [src/app/admin/components/AdminDashboard.tsx](mdc:src/app/admin/components/AdminDashboard.tsx)
+- **Profile Editor**: [src/app/admin/components/ProfileEditor.tsx](mdc:src/app/admin/components/ProfileEditor.tsx)
+- **Category Editor**: [src/app/admin/components/CategoryEditor.tsx](mdc:src/app/admin/components/CategoryEditor.tsx)
+
+## System Operation
+
+### Authentication
+- **PIN**: `611611` (hardcoded in [src/app/api/auth/route.ts](mdc:src/app/api/auth/route.ts))
+- **Session Management**: Uses sessionStorage for persistent login
+- **Access Methods**: 
+  - Direct URL: `/admin`
+  - Semi-hidden: Hover over profile picture in main hub
+
+### Data Structure
+The content is stored in [src/data/hub-content.json](mdc:src/data/hub-content.json) with this schema:
+
+```json
+{
+  "profile": {
+    "name": "string",
+    "tagline": "string", 
+    "profileImage": "string (URL or path)"
+  },
+  "categories": [
+    {
+      "id": "string",
+      "title": "string",
+      "emoji": "string",
+      "color": "string (predefined colors)",
+      "links": [
+        {
+          "id": "string",
+          "title": "string", 
+          "url": "string",
+          "emoji": "string",
+          "color": "string (predefined colors)"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Content Management Features
+1. **Profile Management**: Edit name, tagline, and profile image
+2. **Category Management**: Add, edit, delete categories with custom colors and emojis
+3. **Link Management**: Full CRUD operations for links within categories
+4. **Real-time Preview**: Changes visible immediately
+5. **Auto-save Indicators**: Visual feedback for save status
+
+## AI Content Creation Guidelines
+
+### When AI Should Modify Content
+1. **Adding New Categories**: Create logical groupings (Work, Entertainment, Development, etc.)
+2. **Adding Popular Services**: Include commonly used websites and applications
+3. **Updating URLs**: Fix broken links or update to current URLs
+4. **Improving Organization**: Reorganize links for better UX
+5. **Enhancing Descriptions**: Update profile taglines or link titles
+
+### How AI Should Make Changes
+
+#### Method 1: Direct JSON Editing
+Edit [src/data/hub-content.json](mdc:src/data/hub-content.json) directly:
+- Follow the exact schema structure
+- Use predefined colors: red, blue, green, yellow, purple, pink, indigo, cyan, orange, gray, black
+- Generate unique IDs for new items using descriptive names
+- Choose appropriate emojis that represent the service/category
+
+#### Method 2: API Simulation (for testing)
+Use the POST endpoint structure that mirrors the CMS:
+```typescript
+// Content update payload
+const updatedContent = {
+  profile: { /* profile data */ },
+  categories: [ /* categories array */ ]
+};
+```
+
+### Content Suggestions for AI
+
+#### Popular Categories to Add:
+- **Finance**: Banking, crypto, investments
+- **Learning**: Educational platforms, courses
+- **Health**: Fitness apps, medical services
+- **Shopping**: E-commerce, marketplace sites
+- **News**: News sources, RSS feeds
+- **Gaming**: Gaming platforms, stores
+
+#### Popular Services to Include:
+- **Productivity**: Slack, Trello, Asana, Monday.com
+- **Development**: CodePen, Replit, Docker Hub, AWS Console
+- **Design**: Adobe Creative Suite, Sketch, InVision
+- **Communication**: Zoom, Teams, WhatsApp Web
+- **Entertainment**: Disney+, HBO Max, Apple Music
+- **Finance**: PayPal, Stripe Dashboard, Bank websites
+
+### Best Practices for AI Modifications
+
+1. **Preserve User Data**: Never remove existing user-customized content without explicit instruction
+2. **Logical Grouping**: Keep related services in appropriate categories
+3. **Consistent Naming**: Use official service names and clear descriptions
+4. **Color Coordination**: Use colors that make visual sense (e.g., red for Gmail, blue for Twitter)
+5. **Emoji Selection**: Choose recognizable, relevant emojis for each service
+6. **URL Accuracy**: Ensure all URLs are current and direct to the correct services
+
+## Technical Implementation Notes
+
+### Turbopack Integration
+- Development server runs with `--turbo` flag for enhanced performance
+- Configuration in [next.config.mjs](mdc:next.config.mjs)
+
+### Color System
+The system uses predefined Tailwind color classes mapped in the frontend:
+- Each color maps to specific background, border, and text utilities
+- Colors are consistently applied across categories and links
+
+### Security Considerations
+- PIN authentication provides basic protection
+- Session-based login for user convenience
+- File-system based storage (no external database required)
+
+## Usage Examples
+
+### Adding a New Category
+```json
+{
+  "id": "finance",
+  "title": "Finance",
+  "emoji": "💰",
+  "color": "green",
+  "links": [
+    {
+      "id": "paypal",
+      "title": "PayPal",
+      "url": "https://paypal.com",
+      "emoji": "💳",
+      "color": "blue"
+    }
+  ]
+}
+```
+
+### Updating Profile Information
+```json
+{
+  "profile": {
+    "name": "Tim's Personal Hub",
+    "tagline": "My gateway to everything important",
+    "profileImage": "/profile.png"
+  }
+}
+```
+
+This CMS system provides a perfect balance of simplicity and functionality, making it easy for both manual editing and AI-assisted content management.
+

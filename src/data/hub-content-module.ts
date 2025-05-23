@@ -1,0 +1,349 @@
+// Hub content data as a TypeScript module for Cloudflare Workers compatibility
+export const hubContentData = {
+  "profile": {
+    "name": "Tim's LifeOS",
+    "tagline": "My gateway to everything important",
+    "profileImage": "/profile.png"
+  },
+  "categories": [
+    {
+      "id": "work",
+      "title": "Work & Productivity",
+      "emoji": "💼",
+      "color": "orange",
+      "links": [
+        {
+          "id": "gmail",
+          "title": "Gmail",
+          "url": "https://gmail.com",
+          "emoji": "📧",
+          "color": "red"
+        },
+        {
+          "id": "calendar",
+          "title": "Calendar",
+          "url": "https://calendar.google.com",
+          "emoji": "📅",
+          "color": "blue"
+        },
+        {
+          "id": "drive",
+          "title": "Google Drive",
+          "url": "https://drive.google.com",
+          "emoji": "📁",
+          "color": "green"
+        },
+        {
+          "id": "notion",
+          "title": "Notion",
+          "url": "https://notion.so",
+          "emoji": "📝",
+          "color": "gray"
+        }
+      ]
+    },
+    {
+      "id": "entertainment",
+      "title": "Streaming Services",
+      "emoji": "📺",
+      "color": "purple",
+      "links": [
+        {
+          "id": "netflix",
+          "title": "Netflix",
+          "url": "https://netflix.com",
+          "emoji": "🔴",
+          "color": "red"
+        },
+        {
+          "id": "hulu",
+          "title": "Hulu",
+          "url": "https://hulu.com",
+          "emoji": "🟢",
+          "color": "green"
+        },
+        {
+          "id": "youtube",
+          "title": "YouTube",
+          "url": "https://youtube.com",
+          "emoji": "📹",
+          "color": "red"
+        },
+        {
+          "id": "amazon-video",
+          "title": "Amazon Video",
+          "url": "https://primevideo.com",
+          "emoji": "📦",
+          "color": "blue"
+        },
+        {
+          "id": "peacock",
+          "title": "Peacock",
+          "url": "https://peacocktv.com",
+          "emoji": "🦚",
+          "color": "blue"
+        },
+        {
+          "id": "disney-plus",
+          "title": "Disney+",
+          "url": "https://disneyplus.com",
+          "emoji": "🏰",
+          "color": "blue"
+        },
+        {
+          "id": "twitch",
+          "title": "Twitch",
+          "url": "https://twitch.tv",
+          "emoji": "🎮",
+          "color": "purple"
+        },
+        {
+          "id": "crunchyroll",
+          "title": "Crunchyroll",
+          "url": "https://crunchyroll.com",
+          "emoji": "🍜",
+          "color": "orange"
+        },
+        {
+          "id": "max",
+          "title": "Max",
+          "url": "https://max.com",
+          "emoji": "🎬",
+          "color": "purple"
+        },
+        {
+          "id": "plex",
+          "title": "Plex",
+          "url": "https://plex.tv",
+          "emoji": "🎞️",
+          "color": "yellow"
+        },
+        {
+          "id": "starz",
+          "title": "STARZ",
+          "url": "https://starz.com",
+          "emoji": "⭐",
+          "color": "black"
+        },
+        {
+          "id": "apple-tv-plus",
+          "title": "Apple TV+",
+          "url": "https://tv.apple.com",
+          "emoji": "🍎",
+          "color": "gray"
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "title": "Social Bookmarks",
+      "emoji": "💬",
+      "color": "cyan",
+      "links": [
+        {
+          "id": "twitter",
+          "title": "Twitter / X",
+          "url": "https://twitter.com",
+          "emoji": "🐦",
+          "color": "blue"
+        },
+        {
+          "id": "linkedin",
+          "title": "LinkedIn",
+          "url": "https://linkedin.com",
+          "emoji": "💼",
+          "color": "blue"
+        },
+        {
+          "id": "discord",
+          "title": "Discord",
+          "url": "https://discord.com",
+          "emoji": "💭",
+          "color": "indigo"
+        },
+        {
+          "id": "reddit",
+          "title": "Reddit",
+          "url": "https://reddit.com",
+          "emoji": "🤖",
+          "color": "orange"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "title": "Tools",
+      "emoji": "🛠️",
+      "color": "yellow",
+      "links": [
+        {
+          "id": "chatgpt",
+          "title": "ChatGPT",
+          "url": "https://chatgpt.com",
+          "emoji": "🤖",
+          "color": "green"
+        },
+        {
+          "id": "canva",
+          "title": "Canva",
+          "url": "https://canva.com",
+          "emoji": "🖼️",
+          "color": "blue"
+        }
+      ]
+    },
+    {
+      "id": "quick",
+      "title": "Quick Access",
+      "emoji": "📋",
+      "color": "pink",
+      "links": [
+        {
+          "id": "amazon",
+          "title": "Amazon",
+          "url": "https://amazon.com",
+          "emoji": "📦",
+          "color": "orange"
+        },
+        {
+          "id": "bank",
+          "title": "Bank",
+          "url": "https://your-bank.com",
+          "emoji": "🏦",
+          "color": "blue"
+        }
+      ]
+    }
+  ],
+  "dashboards": [
+    {
+      "id": "main-dashboard",
+      "name": "Main Dashboard",
+      "widgets": [
+        {
+          "id": "widget-1",
+          "type": "category-links",
+          "title": "Work & Productivity",
+          "config": {
+            "categoryId": "work",
+            "showTitle": true
+          },
+          "position": {
+            "row": 0,
+            "column": 0
+          }
+        },
+        {
+          "id": "widget-2",
+          "type": "category-links",
+          "title": "Entertainment",
+          "config": {
+            "categoryId": "entertainment",
+            "showTitle": true
+          },
+          "position": {
+            "row": 0,
+            "column": 1
+          }
+        },
+        {
+          "id": "widget-3",
+          "type": "weather",
+          "title": "Weather",
+          "config": {
+            "location": "02889",
+            "showTitle": true
+          },
+          "position": {
+            "row": 0,
+            "column": 2
+          }
+        },
+        {
+          "id": "widget-4",
+          "type": "category-links",
+          "title": "Social Bookmarks",
+          "config": {
+            "categoryId": "social",
+            "showTitle": true
+          },
+          "position": {
+            "row": 1,
+            "column": 0
+          }
+        },
+        {
+          "id": "widget-5",
+          "type": "category-links",
+          "title": "Tools",
+          "config": {
+            "categoryId": "tools",
+            "showTitle": true
+          },
+          "position": {
+            "row": 1,
+            "column": 1
+          }
+        },
+        {
+          "id": "widget-6",
+          "type": "category-links",
+          "title": "Quick Access",
+          "config": {
+            "categoryId": "quick",
+            "showTitle": true
+          },
+          "position": {
+            "row": 1,
+            "column": 2
+          }
+        }
+      ],
+      "rows": [
+        {
+          "id": "row-1",
+          "columns": [
+            {
+              "id": "col-1-1",
+              "width": 4,
+              "widgets": []
+            },
+            {
+              "id": "col-1-2",
+              "width": 4,
+              "widgets": []
+            },
+            {
+              "id": "col-1-3",
+              "width": 4,
+              "widgets": []
+            }
+          ]
+        },
+        {
+          "id": "row-2",
+          "columns": [
+            {
+              "id": "col-2-1",
+              "width": 4,
+              "widgets": []
+            },
+            {
+              "id": "col-2-2",
+              "width": 4,
+              "widgets": []
+            },
+            {
+              "id": "col-2-3",
+              "width": 4,
+              "widgets": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "currentDashboard": "main-dashboard"
+};
+
+export default hubContentData; 
