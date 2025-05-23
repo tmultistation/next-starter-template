@@ -1,12 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { SignOutButton, useUser } from '@clerk/nextjs';
 import ProfileEditor from './ProfileEditor';
 import DashboardEditor from './DashboardEditor';
-
-interface AdminDashboardProps {
-  onLogout: () => void;
-}
 
 interface Category {
   id: string;
@@ -33,7 +30,8 @@ interface HubContent {
   currentDashboard?: string;
 }
 
-export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
+export default function AdminDashboard() {
+  const { user } = useUser();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [data, setData] = useState<HubContent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -122,18 +120,22 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             )}
           </div>
           <div className="flex items-center space-x-4">
+            {user && (
+              <div className="text-sm text-gray-300">
+                Welcome, {user.firstName || user.emailAddresses[0]?.emailAddress}
+              </div>
+            )}
             <a
               href="/"
               className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
             >
               🏠 View Hub
             </a>
-            <button
-              onClick={onLogout}
-              className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors duration-200"
-            >
-              🚪 Logout
-            </button>
+            <SignOutButton>
+              <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors duration-200">
+                🚪 Sign Out
+              </button>
+            </SignOutButton>
           </div>
         </div>
       </div>

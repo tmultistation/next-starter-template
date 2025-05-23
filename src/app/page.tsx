@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from 'react';
+import { useUser, SignInButton } from '@clerk/nextjs';
 import DashboardGrid from '../components/dashboard/DashboardGrid';
 import { DashboardLayout } from '../types/dashboard';
 
@@ -33,6 +34,7 @@ interface HubContent {
 }
 
 export default function Home() {
+  const { isSignedIn } = useUser();
   const [data, setData] = useState<HubContent | null>(null);
   const [currentLayout, setCurrentLayout] = useState<DashboardLayout | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -134,28 +136,31 @@ export default function Home() {
               className="object-cover"
               priority
             />
-            {/* Semi-hidden admin button */}
-            <a 
-              href="/admin"
-              className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
-              title="Access Admin Panel"
-            >
-              <div className="text-white text-lg transform scale-0 group-hover:scale-100 transition-transform duration-200">
-                🎛️
-              </div>
-            </a>
+            {/* Semi-hidden admin button - only for authenticated users */}
+            {isSignedIn && (
+              <a 
+                href="/admin"
+                className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                title="Access Admin Panel"
+              >
+                <div className="text-white text-lg transform scale-0 group-hover:scale-100 transition-transform duration-200">
+                  🎛️
+                </div>
+              </a>
+            )}
           </div>
           <h1 className="text-3xl font-bold mb-2">{data.profile.name}</h1>
           <p className="text-gray-400 mb-4">{data.profile.tagline}</p>
           
-          {/* Admin Link */}
+          {/* Sign In Link - only for unauthenticated users */}
           <div className="flex items-center justify-center">
-            <a
-              href="/admin"
-              className="px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all duration-200"
-            >
-              ⚙️ Customize Dashboard
-            </a>
+            {!isSignedIn && (
+              <SignInButton mode="modal">
+                <button className="px-4 py-2 bg-gray-600/20 hover:bg-gray-600/30 border border-gray-500/30 text-gray-300 rounded-lg transition-all duration-200 text-sm">
+                  🔐 Sign In
+                </button>
+              </SignInButton>
+            )}
           </div>
         </div>
 
@@ -171,12 +176,14 @@ export default function Home() {
             <div className="text-4xl mb-4">📊</div>
             <h3 className="text-xl font-semibold text-gray-300 mb-2">No Dashboard Configured</h3>
             <p className="text-gray-400 mb-4">Create your first dashboard widgets</p>
-            <a
-              href="/admin"
-              className="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-            >
-              🎛️ Go to Admin Panel
-            </a>
+            {isSignedIn && (
+              <a
+                href="/admin"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+              >
+                🎛️ Go to Admin Panel
+              </a>
+            )}
           </div>
         )}
 

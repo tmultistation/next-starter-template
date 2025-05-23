@@ -1,45 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
 import AdminDashboard from './components/AdminDashboard';
-import PinAuth from './components/PinAuth';
 
 export default function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { isLoaded, isSignedIn, user } = useUser();
 
-  useEffect(() => {
-    // Check if user is already authenticated (session storage)
-    const authStatus = sessionStorage.getItem('admin-authenticated');
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
-    }
-    setIsLoading(false);
-  }, []);
-
-  const handleAuthentication = (success: boolean) => {
-    setIsAuthenticated(success);
-    if (success) {
-      sessionStorage.setItem('admin-authenticated', 'true');
-    }
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    sessionStorage.removeItem('admin-authenticated');
-  };
-
-  if (isLoading) {
+  // Loading state
+  if (!isLoaded) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+        <div className="text-white text-xl">Loading...</div>
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    return <PinAuth onAuthenticated={handleAuthentication} />;
+  // Not authenticated - redirect to sign in
+  if (!isSignedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-6">🔒</div>
+          <h1 className="text-3xl font-bold mb-4">Admin Access Required</h1>
+          <p className="text-gray-400 mb-8">You need to be signed in to customize your dashboard.</p>
+          <div className="text-sm text-gray-500 mb-4">
+            Go back to the <a href="/" className="text-purple-400 hover:text-purple-300">main page</a> and click &quot;Sign In&quot; to continue.
+          </div>
+          <div className="text-xs text-gray-600">
+            Authentication is powered by Clerk for secure access.
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  return <AdminDashboard onLogout={handleLogout} />;
+  // Authenticated - show admin dashboard
+  return <AdminDashboard />;
 } 
