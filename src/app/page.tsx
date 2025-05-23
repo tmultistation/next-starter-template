@@ -1,94 +1,189 @@
+'use client';
+
 import Image from "next/image";
+import { useState, useEffect } from 'react';
+import DashboardGrid from '../components/dashboard/DashboardGrid';
+import { DashboardLayout } from '../types/dashboard';
+
+interface Link {
+  id: string;
+  title: string;
+  url: string;
+  emoji: string;
+  color: string;
+}
+
+interface Category {
+  id: string;
+  title: string;
+  emoji: string;
+  color: string;
+  links: Link[];
+}
+
+interface HubContent {
+  profile: {
+    name: string;
+    tagline: string;
+    profileImage: string;
+  };
+  categories: Category[];
+  dashboards?: DashboardLayout[];
+  currentDashboard?: string;
+}
 
 export default function Home() {
+  const [data, setData] = useState<HubContent | null>(null);
+  const [currentLayout, setCurrentLayout] = useState<DashboardLayout | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const response = await fetch('/api/hub-content');
+        if (response.ok) {
+          const content: HubContent = await response.json();
+          setData(content);
+          
+          // Set current dashboard layout or create a default fallback
+          if (content.dashboards && content.dashboards.length > 0) {
+            const dashboardId = content.currentDashboard || content.dashboards[0].id;
+            const layout = content.dashboards.find(d => d.id === dashboardId);
+            setCurrentLayout(layout || null);
+          } else {
+            // Create a default dashboard with category widgets if no dashboard exists
+            setCurrentLayout(createFallbackDashboard(content.categories || []));
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load hub content:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  const createFallbackDashboard = (categories: Category[]): DashboardLayout => {
+    const widgets = categories.slice(0, 6).map((category, index) => ({
+      id: `fallback-widget-${category.id}`,
+      type: 'category-links' as const,
+      title: category.title,
+      config: {
+        categoryId: category.id,
+        showTitle: true
+      },
+      position: {
+        row: Math.floor(index / 3),
+        column: index % 3
+      }
+    }));
+
+    return {
+      id: 'fallback-dashboard',
+      name: 'Default Dashboard',
+      widgets,
+      rows: [
+        {
+          id: 'row-1',
+          columns: [
+            { id: 'col-1-1', width: 4, widgets: [] },
+            { id: 'col-1-2', width: 4, widgets: [] },
+            { id: 'col-1-3', width: 4, widgets: [] }
+          ]
+        },
+        {
+          id: 'row-2',
+          columns: [
+            { id: 'col-2-1', width: 4, widgets: [] },
+            { id: 'col-2-2', width: 4, widgets: [] },
+            { id: 'col-2-3', width: 4, widgets: [] }
+          ]
+        }
+      ]
+    };
+  };
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex items-center justify-center">
+        <div className="text-xl">Loading your personal hub...</div>
+      </main>
+    );
+  }
+
+  if (!data) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex items-center justify-center">
+        <div className="text-xl">Failed to load hub content</div>
+      </main>
+    );
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-      </div>
+    <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-500 group cursor-pointer">
+            <Image
+              src={data.profile.profileImage}
+              alt="Profile Picture"
+              fill
+              className="object-cover"
+              priority
+            />
+            {/* Semi-hidden admin button */}
+            <a 
+              href="/admin"
+              className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+              title="Access Admin Panel"
+            >
+              <div className="text-white text-lg transform scale-0 group-hover:scale-100 transition-transform duration-200">
+                🎛️
+              </div>
+            </a>
+          </div>
+          <h1 className="text-3xl font-bold mb-2">{data.profile.name}</h1>
+          <p className="text-gray-400 mb-4">{data.profile.tagline}</p>
+          
+          {/* Admin Link */}
+          <div className="flex items-center justify-center">
+            <a
+              href="/admin"
+              className="px-4 py-2 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 text-purple-300 rounded-lg transition-all duration-200"
+            >
+              ⚙️ Customize Dashboard
+            </a>
+          </div>
+        </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        {/* Dashboard Content */}
+        {currentLayout ? (
+          <DashboardGrid
+            layout={currentLayout}
+            categories={data.categories || []}
+            isEditing={false}
+          />
+        ) : (
+          <div className="text-center py-12 bg-gray-800/30 rounded-lg border-2 border-dashed border-gray-600">
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold text-gray-300 mb-2">No Dashboard Configured</h3>
+            <p className="text-gray-400 mb-4">Create your first dashboard widgets</p>
+            <a
+              href="/admin"
+              className="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+            >
+              🎛️ Go to Admin Panel
+            </a>
+          </div>
+        )}
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        {/* Footer */}
+        <footer className="mt-12 text-center text-gray-500 text-sm">
+          <p>Personal Hub • Last updated {new Date().toLocaleDateString()}</p>
+        </footer>
       </div>
     </main>
   );

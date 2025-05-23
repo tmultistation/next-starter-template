@@ -1,0 +1,304 @@
+{
+  "profile": {
+    "name": "Tim's LifeOS",
+    "tagline": "My gateway to everything important",
+    "profileImage": "/profile.png"
+  },
+  "categories": [
+    {
+      "id": "work",
+      "title": "Work & Productivity",
+      "emoji": "💼",
+      "color": "orange",
+      "links": [
+        {
+          "id": "gmail",
+          "title": "Gmail",
+          "url": "https://gmail.com",
+          "emoji": "📧",
+          "color": "red"
+        },
+        {
+          "id": "calendar",
+          "title": "Calendar",
+          "url": "https://calendar.google.com",
+          "emoji": "📅",
+          "color": "blue"
+        },
+        {
+          "id": "drive",
+          "title": "Google Drive",
+          "url": "https://drive.google.com",
+          "emoji": "📁",
+          "color": "green"
+        },
+        {
+          "id": "notion",
+          "title": "Notion",
+          "url": "https://notion.so",
+          "emoji": "📝",
+          "color": "gray"
+        }
+      ]
+    },
+    {
+      "id": "entertainment",
+      "title": "Streaming Services",
+      "emoji": "📺",
+      "color": "purple",
+      "links": [
+        {
+          "id": "netflix",
+          "title": "Netflix",
+          "url": "https://netflix.com",
+          "emoji": "🔴",
+          "color": "red"
+        },
+        {
+          "id": "hulu",
+          "title": "Hulu",
+          "url": "https://hulu.com",
+          "emoji": "🟢",
+          "color": "green"
+        },
+        {
+          "id": "youtube",
+          "title": "YouTube",
+          "url": "https://youtube.com",
+          "emoji": "📹",
+          "color": "red"
+        },
+        {
+          "id": "amazon-video",
+          "title": "Amazon Video",
+          "url": "https://primevideo.com",
+          "emoji": "📦",
+          "color": "blue"
+        },
+        {
+          "id": "peacock",
+          "title": "Peacock",
+          "url": "https://peacocktv.com",
+          "emoji": "🦚",
+          "color": "blue"
+        },
+        {
+          "id": "disney-plus",
+          "title": "Disney+",
+          "url": "https://disneyplus.com",
+          "emoji": "🏰",
+          "color": "blue"
+        },
+        {
+          "id": "twitch",
+          "title": "Twitch",
+          "url": "https://twitch.tv",
+          "emoji": "🎮",
+          "color": "purple"
+        },
+        {
+          "id": "crunchyroll",
+          "title": "Crunchyroll",
+          "url": "https://crunchyroll.com",
+          "emoji": "🍜",
+          "color": "orange"
+        },
+        {
+          "id": "max",
+          "title": "Max",
+          "url": "https://max.com",
+          "emoji": "🎬",
+          "color": "purple"
+        },
+        {
+          "id": "plex",
+          "title": "Plex",
+          "url": "https://plex.tv",
+          "emoji": "🎞️",
+          "color": "yellow"
+        },
+        {
+          "id": "starz",
+          "title": "STARZ",
+          "url": "https://starz.com",
+          "emoji": "⭐",
+          "color": "black"
+        },
+        {
+          "id": "apple-tv-plus",
+          "title": "Apple TV+",
+          "url": "https://tv.apple.com",
+          "emoji": "🍎",
+          "color": "gray"
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "title": "Social Bookmarks",
+      "emoji": "💬",
+      "color": "cyan",
+      "links": [
+        {
+          "id": "twitter",
+          "title": "Twitter / X",
+          "url": "https://twitter.com",
+          "emoji": "🐦",
+          "color": "blue"
+        },
+        {
+          "id": "linkedin",
+          "title": "LinkedIn",
+          "url": "https://linkedin.com",
+          "emoji": "💼",
+          "color": "blue"
+        },
+        {
+          "id": "discord",
+          "title": "Discord",
+          "url": "https://discord.com",
+          "emoji": "💭",
+          "color": "indigo"
+        },
+        {
+          "id": "reddit",
+          "title": "Reddit",
+          "url": "https://reddit.com",
+          "emoji": "🤖",
+          "color": "orange"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "title": "Tools",
+      "emoji": "🛠️",
+      "color": "yellow",
+      "links": [
+        {
+          "id": "chatgpt",
+          "title": "ChatGPT",
+          "url": "https://chatgpt.com",
+          "emoji": "🤖",
+          "color": "green"
+        },
+        {
+          "id": "canva",
+          "title": "Canva",
+          "url": "https://canva.com",
+          "emoji": "🖼️",
+          "color": "blue"
+        }
+      ]
+    },
+    {
+      "id": "quick",
+      "title": "Quick Access",
+      "emoji": "📋",
+      "color": "pink",
+      "links": [
+        {
+          "id": "bookmark1",
+          "title": "Bookmark 1",
+          "url": "#",
+          "emoji": "⭐",
+          "color": "pink"
+        },
+        {
+          "id": "bookmark2",
+          "title": "Bookmark 2",
+          "url": "#",
+          "emoji": "⭐",
+          "color": "pink"
+        }
+      ]
+    }
+  ],
+  "dashboards": [
+    {
+      "id": "default",
+      "name": "My Dashboard",
+      "widgets": [
+        {
+          "id": "widget-1747973120583",
+          "type": "category-links",
+          "title": "Category Links",
+          "config": {
+            "categoryId": "entertainment",
+            "showTitle": true
+          },
+          "position": {
+            "row": 0,
+            "column": 0
+          }
+        },
+        {
+          "id": "widget-1747973712556",
+          "type": "category-links",
+          "title": "Category Links",
+          "config": {
+            "categoryId": "social",
+            "showTitle": true
+          },
+          "position": {
+            "row": 0,
+            "column": 1
+          }
+        },
+        {
+          "id": "widget-1747974580482",
+          "type": "category-links",
+          "title": "Category Links",
+          "config": {
+            "categoryId": "tools",
+            "showTitle": true
+          },
+          "position": {
+            "row": 0,
+            "column": 1
+          }
+        },
+        {
+          "id": "widget-1747974720553",
+          "type": "weather",
+          "title": "Weather",
+          "config": {
+            "location": "Warwick, RI"
+          },
+          "position": {
+            "row": 0,
+            "column": 2
+          }
+        }
+      ],
+      "rows": [
+        {
+          "id": "row-1",
+          "columns": [
+            {
+              "id": "col-0-0",
+              "width": 3,
+              "widgets": []
+            },
+            {
+              "id": "col-0-1",
+              "width": 3,
+              "widgets": []
+            },
+            {
+              "id": "col-0-2",
+              "width": 3,
+              "widgets": []
+            },
+            {
+              "id": "col-0-3",
+              "width": 3,
+              "widgets": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "currentDashboard": "default"
+}
